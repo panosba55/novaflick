@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novaflick | AI Video Studio</title>
+
+  <!-- Novaflick Sparkle Favicon (Base64 για Safari & Chrome) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMwMDYyZmYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMGQ0ZmYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNiIgZmlsbD0idXJsKCNnKSIvPjxwYXRoIGQ9Ik0zMiAxNCBDMzIgMjMgMjMgMzIgMTQgMzIgQzIzIDMyIDMyIDQxIDMyIDUwIEMzMiA0MSA0MSAzMiA1MCAzMiBDNDEgMzIgMzIgMjMgMzIgMTQgWiIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjQuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik00OCAxNXY4TTQ0IDE5aDgiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjE4IiBjeT0iNDYiIHI9IjMuNSIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPg==">
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background-color: #070B14; }
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #070B14; }
+    ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+  </style>
+</head>
+<body class="text-slate-100 font-sans min-h-screen flex selection:bg-cyan-500/30 overflow-x-hidden">
+
+  <!-- 1. Left Sidebar -->
+  <aside class="w-16 md:w-64 border-r border-white/5 bg-[#090E1A]/90 p-4 flex flex-col justify-between shrink-0 min-h-screen">
+    <div class="space-y-6">
+      <!-- Novaflick Brand Logo -->
+      <div class="flex items-center gap-3 px-2">
+        <svg class="w-9 h-9 shrink-0 drop-shadow-md" viewBox="0 0 64 64" fill="none">
+          <defs>
+            <linearGradient id="sidebarGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#0062ff"/>
+              <stop offset="100%" stop-color="#00d4ff"/>
+            </linearGradient>
+          </defs>
+          <rect width="64" height="64" rx="16" fill="url(#sidebarGrad)"/>
+          <path d="M32 14 C32 23 23 32 14 32 C23 32 32 41 32 50 C32 41 41 32 50 32 C41 32 32 23 32 14 Z" stroke="#ffffff" stroke-width="4.5" fill="none" stroke-linejoin="round"/>
+          <path d="M48 15v8M44 19h8" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="18" cy="46" r="3.5" fill="#ffffff"/>
+        </svg>
+        <span class="hidden md:inline font-bold text-xl tracking-wide text-white">
+          Novaflic<span class="text-cyan-400">k</span>
+        </span>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="space-y-1">
+        <button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-blue-600/15 text-cyan-400 border border-cyan-500/20">
+          <i data-lucide="layers" class="w-5 h-5 shrink-0"></i>
+          <span class="hidden md:inline">Workflows</span>
+        </button>
+        <button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition">
+          <i data-lucide="film" class="w-5 h-5 shrink-0"></i>
+          <span class="hidden md:inline">Files & Clips</span>
+        </button>
+        <button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition">
+          <i data-lucide="mic" class="w-5 h-5 shrink-0"></i>
+          <span class="hidden md:inline">Voices (TTS)</span>
+        </button>
+        <button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition">
+          <i data-lucide="palette" class="w-5 h-5 shrink-0"></i>
+          <span class="hidden md:inline">Templates</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Upgrade Box -->
+    <div class="hidden md:block p-4 rounded-2xl bg-gradient-to-b from-blue-950/40 to-slate-900 border border-blue-500/20">
+      <div class="flex items-center gap-2 text-cyan-400 text-xs font-semibold mb-1">
+        <i data-lucide="zap" class="w-4 h-4"></i> 42 / 300 Credits Left
+      </div>
+      <p class="text-xs text-slate-400 mb-3">Upgrade to get 4K exports & 5 Voice Clones.</p>
+      <button onclick="toggleModal(true)" class="w-full py-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white rounded-xl text-xs font-bold transition shadow-md shadow-blue-600/30 cursor-pointer">
+        Upgrade Plan
+      </button>
+    </div>
+  </aside>
+
+  <!-- 2. Main Studio Dashboard -->
+  <main class="flex-1 flex flex-col p-6 lg:p-10 overflow-y-auto">
+    
+    <!-- Top Header -->
+    <header class="flex justify-between items-center pb-8 border-b border-white/5">
+      <div>
+        <h1 class="text-2xl font-bold text-white tracking-tight">Welcome back</h1>
+        <p class="text-sm text-slate-400">Generate studio-grade videos with custom AI models.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0E1526] border border-white/10 text-xs font-medium text-slate-300">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-cyan-400"></i>
+          <span>Credits: <strong class="text-white">42</strong> min</span>
+        </div>
+        <button onclick="toggleModal(true)" class="px-4 py-2 bg-white/10 hover:bg-white/15 border border-white/10 text-white rounded-full text-xs font-semibold transition cursor-pointer">
+          Subscription
+        </button>
+      </div>
+    </header>
+
+    <!-- Prompt Section -->
+    <section class="my-8 max-w-4xl mx-auto w-full">
+      <!-- Tabs -->
+      <div class="flex gap-2 mb-3 justify-center">
+        <button id="tab-video" onclick="switchTab('video')" class="flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-blue-600 text-white shadow-lg shadow-blue-600/30 transition">
+          <i data-lucide="video" class="w-3.5 h-3.5"></i> Video
+        </button>
+        <button id="tab-voiceover" onclick="switchTab('voiceover')" class="flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-white/5 text-slate-400 hover:text-white transition">
+          <i data-lucide="mic" class="w-3.5 h-3.5"></i> Voiceover
+        </button>
+        <button id="tab-design" onclick="switchTab('design')" class="flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-white/5 text-slate-400 hover:text-white transition">
+          <i data-lucide="palette" class="w-3.5 h-3.5"></i> Design
+        </button>
+      </div>
+
+      <!-- Text Input Box (Καθαρό & χωρίς παλιό κείμενο) -->
+      <div class="relative rounded-2xl bg-[#0E1526]/90 border border-white/10 shadow-2xl p-4 transition focus-within:border-cyan-500/50">
+        <textarea
+          id="promptInput"
+          autocomplete="off"
+          placeholder="Γράψε εδώ το σενάριο ή την ιδέα σου χωρισμένη με τελείες..."
+          class="w-full bg-transparent text-white placeholder-slate-500 text-sm focus:outline-none resize-none h-28"
+        ></textarea>
+        
+        <div class="flex justify-between items-center pt-3 border-t border-white/5">
+          <span class="text-xs text-slate-500">Supports English & Greek prompts</span>
+          <button 
+            id="createBtn"
+            onclick="generateScenes()"
+            class="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs font-bold transition shadow-lg shadow-blue-600/30 cursor-pointer"
+          >
+            <span>Create</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Storyboard Player Section -->
+    <section id="resultsSection" class="hidden max-w-4xl mx-auto w-full mb-12 bg-[#0E1526] border border-cyan-500/30 rounded-3xl p-6 shadow-2xl">
+      <div class="flex justify-between items-center mb-4">
+        <h2 id="currentSceneTitle" class="font-bold text-lg text-white flex items-center gap-2">
+          <i data-lucide="play" class="w-4 h-4 text-cyan-400"></i> Scene #1 Preview
+        </h2>
+        <span id="sceneCountText" class="text-xs text-slate-400"></span>
+      </div>
+
+      <div class="relative aspect-video rounded-2xl overflow-hidden bg-black border border-white/10 mb-6 shadow-inner">
+        <video id="mainVideoPlayer" src="" autoplay loop muted controls class="w-full h-full object-cover"></video>
+        <div class="absolute bottom-6 left-6 right-6 bg-black/70 backdrop-blur-md p-3 rounded-xl border border-white/10 text-center">
+          <p id="sceneCaption" class="text-sm font-medium text-white"></p>
+        </div>
+      </div>
+
+      <h3 class="text-xs font-semibold uppercase text-slate-400 tracking-wider mb-3">Storyboard Scenes</h3>
+      <div id="scenesContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+    </section>
+
+    <!-- Complete 10 Video Workflows -->
+    <section class="max-w-6xl mx-auto w-full pb-10">
+      <h2 class="text-lg font-semibold text-white mb-4">Video Workflows</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <!-- 1. Script to video -->
+        <div onclick="generateScenes()" class="group relative rounded-2xl bg-[#0E1526] border border-white/5 hover:border-cyan-500/30 p-5 transition duration-300 hover:shadow-xl hover:shadow-blue-900/10 flex flex-col justify-between overflow-hidden cursor-pointer">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600/40 via-cyan-500/20 to-transparent opacity-20 group-hover:opacity-30 transition"></div>
+          <div class="relative z-10 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
+            <i data-lucide="film" class="w-5 h-5"></i>
+          </div>
+          <div class="relative z-10 mt-6">
+            <h3 class="font-semibold text-white text-base group-hover:text-cyan-300 transition">Script to video</h3>
+            <p class="text-xs text-slate-400 mt-1">Turn any idea or prompt into video</p>
+            <div class="mt-4 flex items-center gap-1 text-xs font-semibold text-cyan-400">
+              <span>Create now</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Avatar video -->
+        <div onclick="generateScenes()" class="group relative rounded-2xl bg-[#0E1526] border border-white/5 hover:border-cyan-500/30 p-5 transition duration-300 hover:shadow-xl hover:shadow-blue-900/10 flex flex-col justify-between overflow-hidden cursor-pointer">
+          <div class="absolute inset-0 bg-gradient-to-br from-sky-500/40 via-blue-600/20 to-transparent opacity-20 group-hover:opacity-30 transition"></div>
+          <div class="relative z-10 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
+            <i data-lucide="tv" class="w-5 h-5"></i>
+          </div>
+          <div class="relative z-10 mt-6">
+            <h3 class="font-semibold text-white text-base group-hover:text-cyan-300 transition">Avatar video</h3>
+            <p class="text-xs text-slate-400 mt-1">Digital AI humans speaking your script</p>
+            <div class="mt-4 flex items-center gap-1 text-xs font-semibold text-cyan-400">
+              <span>Create now</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. PPT to video -->
+        <div onclick="generateScenes()" class="group relative rounded-2xl bg-[#0E1526] border border-white/5 hover:border-cyan-500/30 p-5 transition duration-300 hover:shadow-xl hover:shadow-blue-900/10 flex flex-col justify-between overflow-hidden cursor-pointer">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-700/40 via-indigo-600/20 to-transparent opacity-20 group-hover:opacity-30 transition"></div>
+          <div class="relative z-10 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
+            <i data-lucide="presentation" class="w-5 h-5"></i>
+          </div>
+          <div class="relative z-10 mt-6">
+            <h3 class="font-semibold text-white text-base group-hover:text-cyan-300 transition">PPT to video</h3>
+            <p class="text-xs text-slate-400 mt-1">Transform PowerPoint into engaging clips</p>
+            <div class="mt-4 flex items-center gap-1 text-xs font-semibold text-cyan-400">
+              <span>Create now</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Explainer video (PRO) -->
+        <div onclick="toggleModal(true)" class="group relative rounded-2xl bg-[#0E1526] border border-white/5 hover:border-cyan-500/30 p-5 transition duration-300 hover:shadow-xl hover:shadow-blue-900/10 flex flex-col justify-between overflow-hidden cursor-pointer">
+          <div class="absolute inset-0 bg-gradient-to-br from-cyan-600/40 via-blue-800/20 to-transparent opacity-20 group-hover:opacity-30 transition"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
+              <i data-lucide="clapperboard" class="w-5 h-5"></i>
+            </div>
+            <span class="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300">
+              <i data-lucide="lock" class="w-2.5 h-2.5"></i> PRO
+            </span>
+          </div>
+          <div class="relative z-10 mt-6">
+            <h3 class="font-semibold text-white text-base group-hover:text-cyan-300 transition">Explainer video</h3>
+            <p class="text-xs text-slate-400 mt-1">Clear illustrative educational guides</p>
+            <div class="mt-4 flex items-center gap-1 text-xs font-semibold text-cyan-400">
+              <span>Create now</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Translate video (PRO) -->
+        <div onclick="toggleModal(true)" class="group relative rounded-2xl bg-[#0E1526] border border-white/5 hover:border-cyan-500/30 p-5 transition duration-300 hover:shadow-xl hover:shadow-blue-900/10 flex flex-col justify-between overflow-hidden cursor-pointer">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600/40 via-sky-700/20 to-transparent opacity-20 group-hover:opacity-30 transition"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
+              <i data-lucide="languages" class="w-5 h-5"></i>
+            </div>
+            <span class="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300">
+              <i data-lucide="lock" class="w-2.5 h-2.5"></i> PRO
+            </span>
+          </div>
+          <div class="relative z-10 mt-6">
+            <h3 class="font-semibold text-white text-base group-hover:text-cyan-300 transition">Translate video</h3>
+            <p class="text-xs text-slate-400 mt-1">Voice dubbing & subtitles in 75+ languages</p>
+            <div class="mt-4 flex items-center gap-1 text-xs font-semibold text-cyan-400">
+              <span>Create now</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Music video (PRO) -->
+        <div onclick="toggleModal(true)" class="group relative rounded-2xl bg-[#0E1526] border border-white/5 hover:border-cyan-500/30 p-5 transition duration-300 hover:shadow-xl hover:shadow-blue-900/10 flex flex-col justify-between overflow-hidden cursor-pointer">
+          <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/40 via-blue-500/20 to-transparent opacity-20 group-hover:opacity-30 transition"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
+              <i data-lucide="music" class="w-5 h-5"></i>
+            </div>
+            <span class="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300">
+              <i data-lucide="lock" class="w-2.5 h-2.5"></i> PRO
+            </span>
+          </div>
+          <div class="relative z-10 mt-6">
+            <h3 class="font-semibold text-white text-base group-hover:text-cyan-300 transition">Music video</h3>
+            <p class="text-xs text-slate-400 mt-1">Audio visualizations & beat-synced visuals</p>
+            <div class="mt-4 flex items-center gap-1 text-xs font-semibold text-cyan-400">
+              <span>Create now</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Podcast video (PRO) -->
+        <div onclick="toggleModal(true)" class="group relative rounded-2xl bg-[#0E1526] border border-white/5 hover:border-cyan-500/30 p-5 transition duration-300 hover:shadow-xl hover:shadow-blue-900/10 flex flex-col justify-between overflow-hidden cursor-pointer">
+          <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/40 via-blue-700/20 to-transparent opacity-20 group-hover:opacity-30 transition"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
+              <i data-lucide="podcast" class="w-5 h-5"></i>
+            </div>
+            <span class="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300">
+              <i data-lucide="lock" class="w-2.5 h-2.5"></i> PRO
+            </span>
+          </div>
+          <div class="relative z-10 mt-6">
+            <h3 class="font-semibold text-white text-base group-hover:text-cyan-300 transition">Podcast video</h3>
+            <p class="text-xs text-slate-400 mt-1">Audiograms with dynamic wave overlays</p>
+            <div class="mt-4 flex items-center gap-1 text-xs font-semibold text-cyan-400">
+              <span>Create now</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. Product video -->
+        <div onclick="generateScenes()" class="group relative rounded-2xl bg-[#0E1526] border border-white/5 hover:border-cyan-500/30 p-5 transition duration-300 hover:shadow-xl hover:shadow-blue-900/10 flex flex-col justify-between overflow-hidden cursor-pointer">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/40 via-cyan-600/20 to-transparent opacity-20 group-hover:opacity-30 transition"></div>
+          <div class="relative z-10 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
+            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+          </div>
+          <div class="relative z-10 mt-6">
+            <h3 class="font-semibold text-white text-base group-hover:text-cyan-300 transition">Product video</h3>
+            <p class="text-xs text-slate-400 mt-1">Showcase e-commerce & digital items</p>
+            <div class="mt-4 flex items-center gap-1 text-xs font-semibold text-cyan-400">
+              <span>Create now</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. Blog to video -->
+        <div onclick="generateScenes()" class="group relative rounded-2xl bg-[#0E1526] border border-white/5 hover:border-cyan-500/30 p-5 transition duration-300 hover:shadow-xl hover:shadow-blue-900/10 flex flex-col justify-between overflow-hidden cursor-pointer">
+          <div class="absolute inset-0 bg-gradient-to-br from-sky-600/40 via-blue-900/20 to-transparent opacity-20 group-hover:opacity-30 transition"></div>
+          <div class="relative z-10 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400">
+            <i data-lucide="book-open" class="w-5 h-5"></i>
+          </div>
+          <div class="relative z-10 mt-6">
+            <h3 class="font-semibold text-white text-base group-hover:text-cyan-300 transition">Blog to video</h3>
+            <p class="text-xs text-slate-400 mt-1">Convert blog URLs into short-form reels</p>
+            <div class="mt-4 flex items-center gap-1 text-xs font-semibold text-cyan-400">
+              <span>Create now</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10. Empty Project -->
+        <div onclick="generateScenes()" class="group relative rounded-2xl bg-[#0E1526] border border-white/5 hover:border-cyan-500/30 p-5 transition duration-300 hover:shadow-xl hover:shadow-blue-900/10 flex flex-col justify-between overflow-hidden cursor-pointer">
+          <div class="absolute inset-0 bg-gradient-to-br from-slate-700/30 via-slate-800/20 to-transparent opacity-20 group-hover:opacity-30 transition"></div>
+          <div class="relative z-10 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+          </div>
+          <div class="relative z-10 mt-6">
+            <h3 class="font-semibold text-white text-base group-hover:text-cyan-300 transition">Empty Project</h3>
+            <p class="text-xs text-slate-400 mt-1">Start from scratch with a clean timeline</p>
+            <div class="mt-4 flex items-center gap-1 text-xs font-semibold text-cyan-400">
+              <span>Create now</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- 3. Pricing Modal (Πλήρες με όλα τα 4 πλάνα συνδρομών) -->
+  <div id="pricingModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 overflow-y-auto">
+    <div class="relative w-full max-w-5xl bg-[#0B101D] border border-white/10 rounded-3xl p-6 lg:p-8 shadow-2xl my-auto">
+      <button onclick="toggleModal(false)" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl font-bold cursor-pointer">✕</button>
+
+      <div class="text-center mb-8">
+        <h2 class="text-2xl lg:text-3xl font-extrabold text-white">Choose your Novaflick Plan</h2>
+        <p class="text-sm text-slate-400 mt-1">Upgrade to unlock all workflows, 4K rendering and voice cloning.</p>
+      </div>
+
+      <!-- Grid 4 Πλάνων -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- 1. Free Starter -->
+        <div class="p-5 rounded-2xl bg-[#0E1526] border border-white/10 flex flex-col justify-between">
+          <div>
+            <h3 class="text-base font-bold text-white">Free Starter</h3>
+            <p class="text-xs text-slate-400 mt-1">To explore Novaflick</p>
+            <div class="my-4">
+              <span class="text-3xl font-black text-white">0€</span>
+              <span class="text-xs text-slate-400"> / mo</span>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-300">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> 15 minutes of video</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> 720p HD Quality</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> Novaflick Watermark</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> Standard AI Models</li>
+            </ul>
+          </div>
+          <button onclick="toggleModal(false)" class="mt-6 w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold text-xs transition cursor-pointer">
+            Current Plan
+          </button>
+        </div>
+
+        <!-- 2. Creator Tier -->
+        <div class="p-5 rounded-2xl bg-[#0E1526] border border-white/10 flex flex-col justify-between">
+          <div>
+            <h3 class="text-base font-bold text-white">Creator</h3>
+            <p class="text-xs text-slate-400 mt-1">For active solo creators</p>
+            <div class="my-4">
+              <span class="text-3xl font-black text-white">39€</span>
+              <span class="text-xs text-slate-400"> / month</span>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-300">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> 100 minutes / mo</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> 1080p Full HD</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> No Watermarks</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> 1 Voice Clone</li>
+            </ul>
+          </div>
+          <button class="mt-6 w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs transition cursor-pointer">
+            Select Creator
+          </button>
+        </div>
+
+        <!-- 3. Pro Studio Tier (Most Popular) -->
+        <div class="p-5 rounded-2xl bg-gradient-to-b from-[#131D36] to-[#0E1526] border-2 border-cyan-500/60 flex flex-col justify-between shadow-xl relative">
+          <span class="absolute -top-3 right-4 bg-gradient-to-r from-blue-600 to-cyan-400 text-white text-[9px] font-black tracking-wider uppercase px-2.5 py-0.5 rounded-full shadow-md">
+            Most Popular
+          </span>
+          <div>
+            <h3 class="text-base font-bold text-white">Pro Studio</h3>
+            <p class="text-xs text-slate-400 mt-1">For channels & daily video</p>
+            <div class="my-4">
+              <span class="text-3xl font-black text-white">79€</span>
+              <span class="text-xs text-slate-400"> / month</span>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-200">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> <strong>300 min (5h)</strong> / mo</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> 1080p & <strong>4K Ultra HD</strong></li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> <strong>5 Voice Clones</strong></li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> All Workflows Unlocked</li>
+            </ul>
+          </div>
+          <button class="mt-6 w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold text-xs transition shadow-lg cursor-pointer">
+            Upgrade to Pro
+          </button>
+        </div>
+
+        <!-- 4. Enterprise / Agency Tier -->
+        <div class="p-5 rounded-2xl bg-[#0E1526] border border-white/10 flex flex-col justify-between">
+          <div>
+            <h3 class="text-base font-bold text-white">Agency Scale</h3>
+            <p class="text-xs text-slate-400 mt-1">High-volume production</p>
+            <div class="my-4">
+              <span class="text-3xl font-black text-white">199€</span>
+              <span class="text-xs text-slate-400"> / mo</span>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-300">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> <strong>1,200 min (20h)</strong> / mo</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> 4K 60fps & Fast Render</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> Unlimited Clones</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i> API Access & Support</li>
+            </ul>
+          </div>
+          <button class="mt-6 w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs transition cursor-pointer">
+            Select Agency
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Logic -->
+  <script>
+    lucide.createIcons();
+
+    // Εγγυημένη εμφάνιση του Favicon σε Safari & Chrome
+    (function setDynamicFavicon() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        // Gradient background squircle
+        const grad = ctx.createLinearGradient(0, 64, 64, 0);
+        grad.addColorStop(0, '#0062ff');
+        grad.addColorStop(1, '#00d4ff');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.roundRect(0, 0, 64, 64, 16);
+        ctx.fill();
+
+        // White Sparkle Star
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 4.5;
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(32, 14);
+        ctx.quadraticCurveTo(32, 32, 14, 32);
+        ctx.quadraticCurveTo(32, 32, 32, 50);
+        ctx.quadraticCurveTo(32, 32, 50, 32);
+        ctx.quadraticCurveTo(32, 32, 32, 14);
+        ctx.stroke();
+
+        // Plus
+        ctx.lineWidth = 3.5;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(48, 15); ctx.lineTo(48, 23);
+        ctx.moveTo(44, 19); ctx.lineTo(52, 19);
+        ctx.stroke();
+
+        // Dot
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(18, 46, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/png';
+        link.rel = 'shortcut icon';
+        link.href = canvas.toDataURL();
+        document.head.appendChild(link);
+      }
+    })();
+
+    const sampleVideos = [
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4"
+    ];
+
+    let currentScenes = [];
+
+    function generateScenes() {
+      const input = document.getElementById('promptInput').value.trim();
+      const defaultText = "Η τεχνητή νοημοσύνη αλλάζει την παραγωγή βίντεο. Το Novaflick προσφέρει άμεση δημιουργία σκηνών. Όλα γίνονται σε λίγα δευτερόλεπτα.";
+      const rawText = input || defaultText;
+
+      const sentences = rawText.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 3);
+      const textArray = sentences.length > 0 ? sentences : [rawText];
+
+      currentScenes = textArray.map((text, i) => ({
+        num: i + 1,
+        text: text,
+        video: sampleVideos[i % sampleVideos.length],
+        duration: Math.max(3, Math.min(8, Math.round(text.split(" ").length * 0.4)))
+      }));
+
+      const resSection = document.getElementById('resultsSection');
+      resSection.classList.remove('hidden');
+      document.getElementById('sceneCountText').innerText = `Total Scenes: ${currentScenes.length}`;
+
+      const container = document.getElementById('scenesContainer');
+      container.innerHTML = "";
+
+      currentScenes.forEach((scene, index) => {
+        const card = document.createElement('div');
+        card.id = `scene-card-${index}`;
+        card.className = "p-3 rounded-xl border border-white/5 bg-[#090E1A] hover:border-cyan-400/50 cursor-pointer transition flex flex-col justify-between";
+        card.onclick = () => selectScene(index);
+        card.innerHTML = `
+          <div class="flex justify-between items-center text-xs font-semibold mb-2">
+            <span class="text-cyan-400">Scene #${scene.num}</span>
+            <span class="text-slate-500">${scene.duration}s</span>
+          </div>
+          <p class="text-xs text-slate-300 line-clamp-2">${scene.text}</p>
+        `;
+        container.appendChild(card);
+      });
+
+      selectScene(0);
+      resSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function selectScene(index) {
+      const scene = currentScenes[index];
+      if (!scene) return;
+
+      document.getElementById('currentSceneTitle').innerHTML = `<i data-lucide="play" class="w-4 h-4 text-cyan-400"></i> Preview: Scene #${scene.num}`;
+      document.getElementById('sceneCaption').innerText = scene.text;
+      
+      const player = document.getElementById('mainVideoPlayer');
+      player.src = scene.video;
+      player.play();
+
+      currentScenes.forEach((_, i) => {
+        const el = document.getElementById(`scene-card-${i}`);
+        if (!el) return;
+        if (i === index) {
+          el.className = "p-3 rounded-xl border border-cyan-400 bg-blue-600/20 shadow-md shadow-cyan-900/20 cursor-pointer transition flex flex-col justify-between";
+        } else {
+          el.className = "p-3 rounded-xl border border-white/5 bg-[#090E1A] hover:border-cyan-400/50 cursor-pointer transition flex flex-col justify-between";
+        }
+      });
+
+      lucide.createIcons();
+    }
+
+    function switchTab(tab) {
+      const tabs = ['video', 'voiceover', 'design'];
+      tabs.forEach(t => {
+        const el = document.getElementById(`tab-${t}`);
+        if (t === tab) {
+          el.className = "flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-blue-600 text-white shadow-lg shadow-blue-600/30 transition";
+        } else {
+          el.className = "flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-white/5 text-slate-400 hover:text-white transition";
+        }
+      });
+    }
+
+    function toggleModal(open) {
+      const modal = document.getElementById('pricingModal');
+      if (open) modal.classList.remove('hidden');
+      else modal.classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
